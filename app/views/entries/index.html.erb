@@ -1,2 +1,23 @@
-<h1>Entries#index</h1>
-<p>Find me in app/views/entries/index.html.erb</p>
+<h1>My Journal Entries</h1>
+
+<%= link_to "New Journal Entry", new_entry_path %>
+
+<% if @entries.any? %>
+  <% @entries.each do |entry| %>
+    <hr>
+
+    <h2><%= entry.title %></h2>
+
+    <p><strong>Mood:</strong> <%= entry.mood %></p>
+
+    <p><%= entry.content %></p>
+
+    <small>
+      Created at:
+      <%= entry.created_at.strftime("%B %d, %Y") %>
+    </small>
+
+  <% end %>
+<% else %>
+  <p>No journal entries yet.</p>
+<% end %>

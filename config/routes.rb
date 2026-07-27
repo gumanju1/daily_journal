@@ -1,9 +1,8 @@
 Rails.application.routes.draw do
-  get "entries/index"
-  get "entries/new"
   root "users#new"
 
   get "/signup", to: "users#new"
+  post "/signup", to: "users#create"   # <-- Add this line
 
   get "/login", to: "sessions#new"
   post "/login", to: "sessions#create"

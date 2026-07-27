@@ -1,6 +1,6 @@
 class EntriesController < ApplicationController
   def index
-    @entries = current_user.entries
+    @entries = Entry.all.order(created_at: :desc)
   end
 
   def new
@@ -8,14 +8,15 @@ class EntriesController < ApplicationController
   end
 
   def create
-    @entry = current_user.entries.new(entry_params)
+  @entry = Entry.new(entry_params)
+  @entry.user = User.first
 
-    if @entry.save
-      redirect_to entries_path, notice: "Journal entry created successfully!"
-    else
-      render :new, status: :unprocessable_entity
-    end
+  if @entry.save
+    redirect_to entries_path, notice: "Journal entry created successfully!"
+  else
+    render :new, status: :unprocessable_entity
   end
+end
 
   private
 

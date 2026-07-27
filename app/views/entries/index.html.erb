@@ -1,23 +1,21 @@
 <h1>My Journal Entries</h1>
 
-<%= link_to "New Journal Entry", new_entry_path %>
+<p>
+  <%= link_to "New Journal Entry", new_entry_path %>
+</p>
 
-<% if @entries.any? %>
-  <% @entries.each do |entry| %>
-    <hr>
-
-    <h2><%= entry.title %></h2>
+<% @entries.each do |entry| %>
+  <div style="border:1px solid #ccc; padding:15px; margin-bottom:15px;">
+    <h3>
+      <%= link_to entry.title, entry_path(entry) %>
+    </h3>
 
     <p><strong>Mood:</strong> <%= entry.mood %></p>
 
-    <p><%= entry.content %></p>
+    <p><%= truncate(entry.content, length: 100) %></p>
 
     <small>
-      Created at:
-      <%= entry.created_at.strftime("%B %d, %Y") %>
+      <%= entry.created_at.strftime("%d %b %Y") %>
     </small>
-
-  <% end %>
-<% else %>
-  <p>No journal entries yet.</p>
+  </div>
 <% end %>

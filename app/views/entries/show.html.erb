@@ -1,0 +1,23 @@
+<h1><%= @entry.title %></h1>
+
+<p>
+  <strong>Mood:</strong>
+  <%= @entry.mood %>
+</p>
+
+<p>
+  <strong>Content:</strong><br>
+  <%= @entry.content %>
+</p>
+
+<p>
+  <strong>Created At:</strong>
+  <%= @entry.created_at.strftime("%d %b %Y, %I:%M %p") %>
+</p>
+
+<p>
+  <%= link_to "← Back to Journal Entries", entries_path %>
+</p>
+<p>
+  <%= link_to "Edit Entry", edit_entry_path(@entry) %>
+</p>

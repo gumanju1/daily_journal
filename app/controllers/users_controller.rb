@@ -20,7 +20,9 @@ class UsersController < ApplicationController
       :name,
       :email,
       :password,
-      :password_confirmation
+      :password_confirmation,
+      :bio,
+      :theme_preference
     )
   end
 end

@@ -7,7 +7,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      redirect_to root_path
+      redirect_to "/login", notice: "Account created successfully!"
     else
       render :new, status: :unprocessable_entity
     end
@@ -20,9 +20,7 @@ class UsersController < ApplicationController
       :name,
       :email,
       :password,
-      :password_confirmation,
-      :bio,
-      :theme_preference
+      :password_confirmation
     )
   end
 end

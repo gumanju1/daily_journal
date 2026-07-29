@@ -3,4 +3,5 @@ class Entry < ApplicationRecord
 
   validates :title, presence: true
   validates :content, presence: true
+  validates :mood, presence: true
 end

@@ -1,19 +1,20 @@
 class EntriesController < ApplicationController
+  before_action :authenticate_user
+
   def index
-    @entries = Entry.all.order(created_at: :desc)
+    @entries = current_user.entries.order(created_at: :desc)
   end
 
   def show
-    @entry = Entry.find(params[:id])
+    @entry = current_user.entries.find(params[:id])
   end
 
   def new
-    @entry = Entry.new
+    @entry = current_user.entries.new
   end
 
   def create
-    @entry = Entry.new(entry_params)
-    @entry.user = User.first
+    @entry = current_user.entries.new(entry_params)
 
     if @entry.save
       redirect_to entries_path, notice: "Journal entry created successfully!"
@@ -23,11 +24,11 @@ class EntriesController < ApplicationController
   end
 
   def edit
-    @entry = Entry.find(params[:id])
+    @entry = current_user.entries.find(params[:id])
   end
 
   def update
-    @entry = Entry.find(params[:id])
+    @entry = current_user.entries.find(params[:id])
 
     if @entry.update(entry_params)
       redirect_to entry_path(@entry), notice: "Journal entry updated successfully!"

@@ -21,34 +21,53 @@
 
   <body>
 
-    <nav style="background:#2c3e50; padding:15px;">
-      <% if current_user %>
-        <%= link_to "Home", entries_path, style: "color:white; margin-right:20px; text-decoration:none;" %>
+    <nav style="background:#2c3e50; padding:15px; display:flex; justify-content:space-between; align-items:center;">
+      <div>
+        <% if current_user %>
+          <%= link_to "Home", entries_path, style: "color:white; text-decoration:none; margin-right:20px;" %>
+        <% end %>
+      </div>
 
-        <span style="color:white; margin-right:20px;">
-          Welcome, <%= current_user.name %>
-        </span>
+      <div>
+        <% if current_user %>
+          <span style="color:white; margin-right:15px;">
+            Welcome, <%= current_user.name %>
+          </span>
 
-        <%= button_to "Logout",
-                      logout_path,
-                      method: :delete,
-                      form: { style: "display:inline;" },
-                      style: "background:#e74c3c; color:white; border:none; padding:8px 12px; cursor:pointer;" %>
-      <% else %>
-        <%= link_to "Login", login_path, style: "color:white; margin-right:20px; text-decoration:none;" %>
-        <%= link_to "Sign Up", signup_path, style: "color:white; text-decoration:none;" %>
-      <% end %>
+          <%= button_to "Logout",
+                        logout_path,
+                        method: :delete,
+                        form: { style: "display:inline;" },
+                        style: "background:#dc3545; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer;" %>
+        <% else %>
+          <%= link_to "Login", login_path, style: "color:white; margin-right:20px; text-decoration:none;" %>
+          <%= link_to "Sign Up", signup_path, style: "color:white; text-decoration:none;" %>
+        <% end %>
+      </div>
     </nav>
 
     <% if notice %>
-      <p style="color:green; padding:10px;"><%= notice %></p>
+      <div id="toast" class="toast success">
+        <%= notice %>
+      </div>
     <% end %>
 
     <% if alert %>
-      <p style="color:red; padding:10px;"><%= alert %></p>
+      <div id="toast" class="toast error">
+        <%= alert %>
+      </div>
     <% end %>
 
     <%= yield %>
+
+    <script>
+      setTimeout(function() {
+        const toast = document.getElementById("toast");
+        if (toast) {
+          toast.remove();
+        }
+      }, 3000);
+    </script>
 
   </body>
 </html>

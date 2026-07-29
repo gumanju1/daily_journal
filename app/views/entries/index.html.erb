@@ -17,5 +17,14 @@
     <small>
       <%= entry.created_at.strftime("%d %b %Y") %>
     </small>
+
+    <br><br>
+
+    <%= link_to "View", entry_path(entry) %> |
+    <%= link_to "Edit", edit_entry_path(entry) %> |
+    <%= button_to "Delete",
+                  entry_path(entry),
+                  method: :delete,
+                  data: { turbo_confirm: "Are you sure?" } %>
   </div>
 <% end %>

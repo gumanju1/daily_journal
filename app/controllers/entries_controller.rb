@@ -37,6 +37,13 @@ class EntriesController < ApplicationController
     end
   end
 
+  def destroy
+    @entry = current_user.entries.find(params[:id])
+    @entry.destroy
+
+    redirect_to entries_path, notice: "Journal entry deleted successfully!"
+  end
+
   private
 
   def entry_params

@@ -7,7 +7,7 @@ class PasswordsController < ApplicationController
 
     if user
       user.update(
-        password_reset_token: SecureRandom.urlsafe_base64,
+        password_reset_token: user.generate_token_for(:password_reset),
         password_reset_sent_at: Time.current
       )
 
@@ -20,11 +20,13 @@ class PasswordsController < ApplicationController
   end
 
   def edit
-    @user = User.find_by(password_reset_token: params[:token])
+    @user = User.find_by_token_for(:password_reset, params[:token])
+
+    redirect_to login_path, alert: "Invalid or expired password reset link." unless @user
   end
 
   def update
-    @user = User.find_by(password_reset_token: params[:token])
+    @user = User.find_by_token_for(:password_reset, params[:token])
 
     if @user&.update(user_params)
       @user.update(

@@ -3,6 +3,10 @@ class User < ApplicationRecord
 
   has_many :entries, dependent: :destroy
 
+  generates_token_for :password_reset do
+    password_reset_sent_at && password_reset_sent_at > 15.minutes.ago
+  end
+
   validates :name, presence: true
 
   validates :email,

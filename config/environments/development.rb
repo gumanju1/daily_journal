@@ -28,17 +28,22 @@ Rails.application.configure do
   # Change to :null_store to avoid any caching.
   config.cache_store = :memory_store
 
-  # Store uploaded files on the local file system (see config/storage.yml for options).
+  # Store uploaded files on the local file system.
   config.active_storage.service = :local
 
-  # Don't care if the mailer can't send.
+  # Action Mailer configuration
   config.action_mailer.raise_delivery_errors = false
-
-  # Make template changes take effect immediately.
   config.action_mailer.perform_caching = false
 
+  # Use Letter Opener for development email previews
+  config.action_mailer.delivery_method = :letter_opener
+  config.action_mailer.perform_deliveries = true
+
   # Set localhost to be used by links generated in mailer templates.
-  config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
+  config.action_mailer.default_url_options = {
+    host: "localhost",
+    port: 3000
+  }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -49,10 +54,10 @@ Rails.application.configure do
   # Highlight code that triggered database queries in logs.
   config.active_record.verbose_query_logs = true
 
-  # Append comments with runtime information tags to SQL queries in logs.
+  # Append comments with runtime information tags to SQL queries.
   config.active_record.query_log_tags_enabled = true
 
-  # Highlight code that enqueued background job in logs.
+  # Highlight code that enqueued background jobs in logs.
   config.active_job.verbose_enqueue_logs = true
 
   # Highlight code that triggered redirect in logs.

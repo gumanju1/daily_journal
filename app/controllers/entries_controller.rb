@@ -1,12 +1,12 @@
 class EntriesController < ApplicationController
   before_action :authenticate_user
+  before_action :set_entry, only: [ :show, :edit, :update, :destroy ]
 
   def index
     @entries = current_user.entries.order(created_at: :desc)
   end
 
   def show
-    @entry = current_user.entries.find(params[:id])
   end
 
   def new
@@ -24,12 +24,9 @@ class EntriesController < ApplicationController
   end
 
   def edit
-    @entry = current_user.entries.find(params[:id])
   end
 
   def update
-    @entry = current_user.entries.find(params[:id])
-
     if @entry.update(entry_params)
       redirect_to entry_path(@entry), notice: "Journal entry updated successfully!"
     else
@@ -38,13 +35,15 @@ class EntriesController < ApplicationController
   end
 
   def destroy
-    @entry = current_user.entries.find(params[:id])
     @entry.destroy
-
     redirect_to entries_path, notice: "Journal entry deleted successfully!"
   end
 
   private
+
+  def set_entry
+    @entry = current_user.entries.find(params[:id])
+  end
 
   def entry_params
     params.require(:entry).permit(:title, :content, :mood)

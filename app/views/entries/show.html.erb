@@ -1,13 +1,15 @@
 <h1><%= @entry.title %></h1>
 
+<hr>
+
 <p>
   <strong>Mood:</strong>
   <%= @entry.mood %>
 </p>
 
 <p>
-  <strong>Content:</strong><br>
-  <%= @entry.content %>
+  <strong>Content:</strong><br><br>
+  <%= simple_format(@entry.content) %>
 </p>
 
 <p>
@@ -16,10 +18,14 @@
 </p>
 
 <p>
-  <%= link_to "← Back to Journal Entries", entries_path %>
+  <strong>Last Updated:</strong>
+  <%= @entry.updated_at.strftime("%d %b %Y, %I:%M %p") %>
 </p>
 
+<hr>
+
 <p>
+  <%= link_to "← Back to Journal Entries", entries_path %> |
   <%= link_to "Edit Entry", edit_entry_path(@entry) %>
 </p>
 

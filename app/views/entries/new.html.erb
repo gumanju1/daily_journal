@@ -17,26 +17,40 @@
 <%= form_with model: @entry do |form| %>
 
   <div>
-    <%= form.label :title %>
-    <%= form.text_field :title %>
+    <%= form.label :title %><br>
+    <%= form.text_field :title,
+        placeholder: "Enter journal title",
+        required: true %>
   </div>
 
-  <div>
-    <%= form.label :content %>
-    <%= form.text_area :content %>
-  </div>
+  <br>
 
   <div>
-    <%= form.label :mood %>
-    <%= form.select :mood, [
-      "Happy",
-      "Calm",
-      "Excited",
-      "Sad",
-      "Stressed",
-      "Angry"
-    ] %>
+    <%= form.label :content %><br>
+    <%= form.text_area :content,
+        rows: 6,
+        placeholder: "Write about your day...",
+        required: true %>
   </div>
+
+  <br>
+
+  <div>
+    <%= form.label :mood %><br>
+    <%= form.select :mood,
+      [
+        "Happy",
+        "Calm",
+        "Excited",
+        "Sad",
+        "Stressed",
+        "Angry"
+      ],
+      { prompt: "Select your mood" },
+      { required: true } %>
+  </div>
+
+  <br>
 
   <div>
     <%= form.submit "Save Entry" %>

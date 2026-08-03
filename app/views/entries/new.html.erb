@@ -1,9 +1,9 @@
-<h1>New Journal Entry</h1>
+<h1 class="page-title">📝 Create New Journal Entry</h1>
 
 <% if @entry.errors.any? %>
-  <div style="color: red;">
+  <div style="background:#fee2e2; color:#b91c1c; padding:20px; border-radius:10px; margin-bottom:25px;">
     <h3>
-      <%= pluralize(@entry.errors.count, "error") %> prohibited this journal entry from being saved:
+      <%= pluralize(@entry.errors.count, "error") %> prevented this journal entry from being saved:
     </h3>
 
     <ul>
@@ -28,8 +28,8 @@
   <div>
     <%= form.label :content %><br>
     <%= form.text_area :content,
-        rows: 6,
-        placeholder: "Write about your day...",
+        rows: 8,
+        placeholder: "Write about your day, thoughts, or memories...",
         required: true %>
   </div>
 
@@ -39,12 +39,12 @@
     <%= form.label :mood %><br>
     <%= form.select :mood,
       [
-        "Happy",
-        "Calm",
-        "Excited",
-        "Sad",
-        "Stressed",
-        "Angry"
+        "😊 Happy",
+        "😌 Calm",
+        "🤩 Excited",
+        "😢 Sad",
+        "😓 Stressed",
+        "😠 Angry"
       ],
       { prompt: "Select your mood" },
       { required: true } %>
@@ -53,14 +53,20 @@
   <br>
 
   <div>
-    <%= form.label :photo, "Upload Photo" %><br>
+    <%= form.label :photo, "📷 Upload Photo" %><br>
     <%= form.file_field :photo, accept: "image/*" %>
   </div>
 
   <br>
 
-  <div>
-    <%= form.submit "Save Entry" %>
+  <div style="display:flex; gap:15px; align-items:center;">
+
+    <%= form.submit "💾 Save Journal Entry" %>
+
+    <%= link_to "⬅ Cancel",
+                entries_path,
+                class: "secondary-btn" %>
+
   </div>
 
 <% end %>

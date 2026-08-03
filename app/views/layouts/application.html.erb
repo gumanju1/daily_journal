@@ -2,10 +2,12 @@
 <html>
   <head>
     <title><%= content_for(:title) || "Daily Journal" %></title>
+
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="application-name" content="Daily Journal">
     <meta name="mobile-web-app-capable" content="yes">
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -21,29 +23,58 @@
 
   <body>
 
-    <nav style="background:#2c3e50; padding:15px; display:flex; justify-content:space-between; align-items:center;">
-      <div>
+    <nav class="navbar">
+
+      <div class="nav-left">
         <% if current_user %>
-          <%= link_to "Home", entries_path, style: "color:white; text-decoration:none; margin-right:20px;" %>
+          <%= link_to "📖 Daily Journal", entries_path %>
+        <% else %>
+          <strong style="color:white;font-size:22px;">
+            📖 Daily Journal
+          </strong>
         <% end %>
       </div>
 
-      <div>
+      <div class="nav-right">
+
         <% if current_user %>
-          <span style="color:white; margin-right:15px;">
-            Welcome, <%= current_user.name %>
+
+          <span style="color:white;margin-right:20px;">
+            👋 Welcome,
+            <strong><%= current_user.name %></strong>
           </span>
+
+          <%= link_to "🏠 Home",
+                      entries_path,
+                      class: "secondary-btn",
+                      style: "margin-right:10px;" %>
+
+          <%= link_to "➕ New Journal",
+                      new_entry_path,
+                      class: "primary-btn",
+                      style: "margin-right:10px;" %>
 
           <%= button_to "Logout",
                         logout_path,
                         method: :delete,
                         form: { style: "display:inline;" },
-                        style: "background:#dc3545; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer;" %>
+                        class: "delete-btn" %>
+
         <% else %>
-          <%= link_to "Login", login_path, style: "color:white; margin-right:20px; text-decoration:none;" %>
-          <%= link_to "Sign Up", signup_path, style: "color:white; text-decoration:none;" %>
+
+          <%= link_to "Login",
+                      login_path,
+                      class: "secondary-btn",
+                      style: "margin-right:10px;" %>
+
+          <%= link_to "Sign Up",
+                      signup_path,
+                      class: "primary-btn" %>
+
         <% end %>
+
       </div>
+
     </nav>
 
     <% if notice %>
@@ -58,11 +89,14 @@
       </div>
     <% end %>
 
-    <%= yield %>
+    <div class="container">
+      <%= yield %>
+    </div>
 
     <script>
-      setTimeout(function() {
+      setTimeout(function () {
         const toast = document.getElementById("toast");
+
         if (toast) {
           toast.remove();
         }

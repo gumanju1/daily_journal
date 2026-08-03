@@ -53,6 +53,13 @@
   <br>
 
   <div>
+    <%= form.label :photo, "Upload Photo" %><br>
+    <%= form.file_field :photo, accept: "image/*" %>
+  </div>
+
+  <br>
+
+  <div>
     <%= form.submit "Save Entry" %>
   </div>
 

@@ -7,6 +7,13 @@
   <%= @entry.mood %>
 </p>
 
+<% if @entry.photo.attached? %>
+  <p>
+    <strong>Photo:</strong><br><br>
+    <%= image_tag @entry.photo, width: 350, style: "border-radius: 10px;" %>
+  </p>
+<% end %>
+
 <p>
   <strong>Content:</strong><br><br>
   <%= simple_format(@entry.content) %>
@@ -34,4 +41,4 @@
                 entry_path(@entry),
                 method: :delete,
                 data: { turbo_confirm: "Are you sure you want to delete this journal entry?" } %>
-</p>
+</p>bin

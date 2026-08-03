@@ -17,17 +17,21 @@
 <%= form_with model: @entry do |form| %>
 
   <div>
-    <%= form.label :title %>
+    <%= form.label :title %><br>
     <%= form.text_field :title %>
   </div>
 
-  <div>
-    <%= form.label :content %>
-    <%= form.text_area :content %>
-  </div>
+  <br>
 
   <div>
-    <%= form.label :mood %>
+    <%= form.label :content %><br>
+    <%= form.text_area :content, rows: 6 %>
+  </div>
+
+  <br>
+
+  <div>
+    <%= form.label :mood %><br>
     <%= form.select :mood, [
       "Happy",
       "Calm",
@@ -37,6 +41,24 @@
       "Angry"
     ] %>
   </div>
+
+  <br>
+
+  <% if @entry.photo.attached? %>
+    <div>
+      <strong>Current Photo:</strong><br><br>
+      <%= image_tag @entry.photo, width: 250, style: "border-radius: 10px;" %>
+    </div>
+
+    <br>
+  <% end %>
+
+  <div>
+    <%= form.label :photo, "Change Photo" %><br>
+    <%= form.file_field :photo, accept: "image/*" %>
+  </div>
+
+  <br>
 
   <div>
     <%= form.submit "Update Entry" %>

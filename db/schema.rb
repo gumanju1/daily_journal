@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_29_083438) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_04_102808) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -52,6 +52,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_29_083438) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "comments", force: :cascade do |t|
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.bigint "entry_id", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["entry_id"], name: "index_comments_on_entry_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
   create_table "entries", force: :cascade do |t|
     t.text "content"
     t.datetime "created_at", null: false
@@ -76,5 +86,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_29_083438) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "comments", "entries"
+  add_foreign_key "comments", "users"
   add_foreign_key "entries", "users"
 end

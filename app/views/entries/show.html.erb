@@ -9,9 +9,7 @@
   </p>
 
   <% if @entry.photo.attached? %>
-
     <%= image_tag @entry.photo %>
-
   <% end %>
 
   <hr>
@@ -36,6 +34,64 @@
 
   <hr>
 
+  <h2>💬 Comments</h2>
+
+  <% if @entry.comments.any? %>
+
+    <% @entry.comments.each do |comment| %>
+
+      <div style="background:#f8fafc; padding:15px; margin-bottom:15px; border-radius:10px;">
+
+        <strong><%= comment.user.name %></strong>
+
+        <small style="color:gray;">
+          • <%= comment.created_at.strftime("%d %b %Y %I:%M %p") %>
+        </small>
+
+        <p>
+          <%= comment.content %>
+        </p>
+
+        <% if comment.user == current_user %>
+          <%= button_to "Delete Comment",
+                        entry_comment_path(@entry, comment),
+                        method: :delete,
+                        class: "delete-btn",
+                        data: {
+                          turbo_confirm: "Delete this comment?"
+                        } %>
+        <% end %>
+
+      </div>
+
+    <% end %>
+
+  <% else %>
+
+    <p>No comments yet.</p>
+
+  <% end %>
+
+  <hr>
+
+  <h3>Add a Comment</h3>
+
+  <%= form_with model: [@entry, Comment.new] do |form| %>
+
+    <div>
+      <%= form.text_area :content,
+          rows: 4,
+          placeholder: "Write your comment..." %>
+    </div>
+
+    <br>
+
+    <%= form.submit "Post Comment" %>
+
+  <% end %>
+
+  <hr>
+
   <div class="actions">
 
     <%= link_to "⬅ Back",
@@ -46,7 +102,7 @@
                 edit_entry_path(@entry),
                 class: "primary-btn" %>
 
-    <%= button_to "🗑 Delete",
+    <%= button_to "🗑 Delete Entry",
                   entry_path(@entry),
                   method: :delete,
                   class: "delete-btn",

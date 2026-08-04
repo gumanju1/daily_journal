@@ -3,6 +3,8 @@ class Entry < ApplicationRecord
 
   has_one_attached :photo
 
+  has_many :comments, dependent: :destroy
+
   validates :title,
             presence: true,
             length: { minimum: 3, maximum: 100 }

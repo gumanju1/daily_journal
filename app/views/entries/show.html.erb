@@ -2,93 +2,90 @@
 
 <div class="entry-card">
 
-  <p>
-    <span class="mood-badge">
-      😊 <%= @entry.mood %>
-    </span>
-  </p>
-
   <% if @entry.photo.attached? %>
-    <%= image_tag @entry.photo %>
+    <div class="entry-photo">
+      <%= image_tag @entry.photo, class: "journal-photo" %>
+    </div>
   <% end %>
 
+  <div class="entry-info">
+
+    <p>
+      <span class="mood-badge">
+        😊 <%= @entry.mood %>
+      </span>
+    </p>
+
+    <h3>📝 Journal</h3>
+
+    <p class="journal-content">
+      <%= simple_format(@entry.content) %>
+    </p>
+
+    <div class="entry-meta">
+      <p>📅 Created: <%= @entry.created_at.strftime("%d %B %Y, %I:%M %p") %></p>
+      <p>✏ Updated: <%= @entry.updated_at.strftime("%d %B %Y, %I:%M %p") %></p>
+    </div>
+
+  </div>
+
   <hr>
 
-  <h3>📝 Journal</h3>
+  <div class="comments-section">
 
-  <p style="line-height:1.8;">
-    <%= simple_format(@entry.content) %>
-  </p>
+    <h2>💬 Comments</h2>
 
-  <hr>
+    <% if @entry.comments.any? %>
 
-  <p class="entry-meta">
-    📅 Created:
-    <%= @entry.created_at.strftime("%d %B %Y, %I:%M %p") %>
-  </p>
+      <% @entry.comments.each do |comment| %>
 
-  <p class="entry-meta">
-    ✏ Updated:
-    <%= @entry.updated_at.strftime("%d %B %Y, %I:%M %p") %>
-  </p>
+        <div class="comment-card">
 
-  <hr>
+          <strong><%= comment.user.name %></strong>
 
-  <h2>💬 Comments</h2>
+          <small>
+            • <%= comment.created_at.strftime("%d %b %Y %I:%M %p") %>
+          </small>
 
-  <% if @entry.comments.any? %>
+          <p><%= comment.content %></p>
 
-    <% @entry.comments.each do |comment| %>
+          <% if comment.user == current_user %>
+            <%= button_to "Delete Comment",
+                          entry_comment_path(@entry, comment),
+                          method: :delete,
+                          class: "delete-btn",
+                          data: {
+                            turbo_confirm: "Delete this comment?"
+                          } %>
+          <% end %>
 
-      <div style="background:#f8fafc; padding:15px; margin-bottom:15px; border-radius:10px;">
+        </div>
 
-        <strong><%= comment.user.name %></strong>
+      <% end %>
 
-        <small style="color:gray;">
-          • <%= comment.created_at.strftime("%d %b %Y %I:%M %p") %>
-        </small>
+    <% else %>
 
-        <p>
-          <%= comment.content %>
-        </p>
-
-        <% if comment.user == current_user %>
-          <%= button_to "Delete Comment",
-                        entry_comment_path(@entry, comment),
-                        method: :delete,
-                        class: "delete-btn",
-                        data: {
-                          turbo_confirm: "Delete this comment?"
-                        } %>
-        <% end %>
-
-      </div>
+      <p>No comments yet.</p>
 
     <% end %>
 
-  <% else %>
+    <hr>
 
-    <p>No comments yet.</p>
+    <h3>Add a Comment</h3>
 
-  <% end %>
+    <%= form_with model: [@entry, Comment.new] do |form| %>
 
-  <hr>
-
-  <h3>Add a Comment</h3>
-
-  <%= form_with model: [@entry, Comment.new] do |form| %>
-
-    <div>
       <%= form.text_area :content,
           rows: 4,
           placeholder: "Write your comment..." %>
-    </div>
 
-    <br>
+      <br><br>
 
-    <%= form.submit "Post Comment" %>
+      <%= form.submit "Post Comment" %>
 
-  <% end %>
+    <% end %>
+
+  </div>
 
   <hr>
 

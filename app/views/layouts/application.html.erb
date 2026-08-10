@@ -23,22 +23,12 @@
 
   <body>
 
-    <nav class="navbar">
-
-  <div class="nav-left">
-    <% if current_user %>
-      <%= link_to "📖 Daily Journal", entries_path, class: "logo" %>
-    <% else %>
-      <strong class="logo">📖 Daily Journal</strong>
-    <% end %>
-  </div>
-
+  <nav class="navbar">
   <% if current_user %>
-
     <div class="nav-center">
-
       <span class="welcome-text">
-        👋 Welcome, <strong><%= current_user.name %></strong>
+        👋 Welcome,
+        <strong><%= current_user.name.presence || current_user.email %></strong>
       </span>
 
       <%= link_to "🏠 Home",
@@ -48,60 +38,51 @@
       <%= link_to "➕ New Journal",
                   new_entry_path,
                   class: "primary-btn" %>
-
     </div>
 
     <div class="nav-logout">
       <%= button_to "Logout",
-                    logout_path,
+                    destroy_user_session_path,
                     method: :delete,
                     form: { style: "display:inline;" },
                     class: "delete-btn" %>
     </div>
 
   <% else %>
-
     <div class="nav-right">
-
       <%= link_to "Login",
-                  login_path,
+                  new_user_session_path,
                   class: "secondary-btn" %>
 
       <%= link_to "Sign Up",
-                  signup_path,
+                  new_user_registration_path,
                   class: "primary-btn" %>
-
     </div>
-
   <% end %>
-
 </nav>
 
-    <% if notice %>
-      <div id="toast" class="toast success">
-        <%= notice %>
-      </div>
-    <% end %>
+<% if notice %>
+  <div id="toast" class="toast success">
+    <%= notice %>
+  </div>
+<% end %>
 
-    <% if alert %>
-      <div id="toast" class="toast error">
-        <%= alert %>
-      </div>
-    <% end %>
+<% if alert %>
+  <div id="toast" class="toast error">
+    <%= alert %>
+  </div>
+<% end %>
 
-    <div class="container">
-      <%= yield %>
-    </div>
+<div class="container">
+  <%= yield %>
+</div>
 
-    <script>
-      setTimeout(function () {
-        const toast = document.getElementById("toast");
+<script>
+  setTimeout(function () {
+    const toast = document.getElementById("toast");
 
-        if (toast) {
-          toast.remove();
-        }
-      }, 3000);
-    </script>
-
-  </body>
-</html>
+    if (toast) {
+      toast.remove();
+    }
+  }, 3000);
+</script>

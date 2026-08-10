@@ -28,7 +28,7 @@ class CommentsController < ApplicationController
 
   def set_entry
     @entry = Entry.find(params[:entry_id])
-  end
+  end*
 
   def comment_params
     params.require(:comment).permit(:content)

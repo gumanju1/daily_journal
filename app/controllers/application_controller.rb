@@ -1,15 +1,17 @@
 class ApplicationController < ActionController::Base
-  helper_method :current_user
+  before_action :configure_permitted_parameters, if: :devise_controller?
 
-  private
+  protected
 
-  def current_user
-    @current_user ||= User.find_by(id: session[:user_id])
-  end
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(
+      :sign_up,
+      keys: [ :name, :bio, :theme_preference ]
+    )
 
-  def authenticate_user
-    unless current_user
-      redirect_to login_path, alert: "Please log in first."
-    end
+    devise_parameter_sanitizer.permit(
+      :account_update,
+      keys: [ :name, :bio, :theme_preference ]
+    )
   end
 end

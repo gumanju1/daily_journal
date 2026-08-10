@@ -1,95 +1,78 @@
-<h1 class="page-title">📖 My Journal Entries</h1>
-
-<div class="journal-header">
-
-  <h3>
-    Total Entries:
-    <span class="mood-badge"><%= @entries.count %></span>
-  </h3>
-
-  <%= link_to "➕ New Journal Entry",
-              new_entry_path,
-              class: "primary-btn" %>
-
-</div>
+<%= link_to "➕ New Journal Entry",
+            new_entry_path,
+            class: "primary-btn" %>
 
 <% if @entries.any? %>
 
-  <div class="journal-grid">
+  <% @entries.each do |entry| %>
 
-    <% @entries.each do |entry| %>
+    <div class="journal-card">
 
-      <div class="journal-card">
-
-        <% if entry.photo.attached? %>
-          <div class="journal-image">
-            <%= image_tag entry.photo, class: "journal-thumbnail" %>
-          </div>
-        <% end %>
-
-        <div class="journal-body">
-
-          <h2 class="entry-title">
-            <%= link_to entry.title, entry_path(entry) %>
-          </h2>
-
-          <p>
-            <span class="mood-badge">
-              😊 <%= entry.mood %>
-            </span>
-          </p>
-
-          <p class="journal-preview">
-            <%= truncate(entry.content, length: 150) %>
-          </p>
-
-          <p class="entry-meta">
-            📅 <%= entry.created_at.strftime("%d %B %Y") %>
-          </p>
-
+      <% if entry.photo.attached? %>
+        <div class="journal-image">
+          <%= image_tag entry.photo.url,
+                        class: "journal-thumbnail",
+                        alt: entry.title %>
         </div>
+      <% end %>
 
-        <div class="journal-actions">
+      <div class="journal-body">
 
-          <%= link_to "👁 View",
-                      entry_path(entry),
-                      class: "secondary-btn" %>
+        <h2 class="entry-title">
+          <%= link_to entry.title, entry_path(entry) %>
+        </h2>
 
-          <%= link_to "✏ Edit",
-                      edit_entry_path(entry),
-                      class: "primary-btn" %>
+        <p>
+          <span class="mood-badge">
+            😊 <%= entry.mood %>
+          </span>
+        </p>
 
-          <%= button_to "🗑 Delete",
-                        entry_path(entry),
-                        method: :delete,
-                        class: "delete-btn",
-                        form_class: "inline-delete-form",
-                        data: {
-                          turbo_confirm: "Delete this journal?"
-                        } %>
+        <p class="journal-preview">
+          <%= truncate(entry.content, length: 150) %>
+        </p>
 
-        </div>
+        <p class="entry-meta">
+          📅 <%= entry.created_at.strftime("%d %B %Y") %>
+        </p>
 
       </div>
 
-    <% end %>
+      <div class="journal-actions">
 
-  </div>
+        <%= link_to "👁 View",
+                    entry_path(entry),
+                    class: "secondary-btn" %>
+
+        <%= link_to "✏ Edit",
+                    edit_entry_path(entry),
+                    class: "primary-btn" %>
+
+        <%= button_to "🗑 Delete",
+                      entry_path(entry),
+                      method: :delete,
+                      class: "delete-btn",
+                      form_class: "inline-delete-form",
+                      data: {
+                        turbo_confirm: "Delete this journal?"
+                      } %>
+
+      </div>
+
+    </div>
+
+  <% end %>
 
 <% else %>
 
-  <div class="entry-card" style="text-align:center;">
+  <h2>No Journal Entries Yet 📔</h2>
 
-    <h2>No Journal Entries Yet 📔</h2>
+  <p>Start recording your memories today.</p>
 
-    <p>Start recording your memories today.</p>
+  <br>
 
-    <br>
-
-    <%= link_to "➕ Create Your First Journal",
-                new_entry_path,
-                class: "primary-btn" %>
-
-  </div>
+  <%= link_to "➕ Create Your First Journal",
+              new_entry_path,
+              class: "primary-btn" %>
 
 <% end %>

@@ -3,10 +3,10 @@
 <div class="entry-card">
 
   <% if @entry.photo.attached? %>
-    <div class="entry-photo">
-      <%= image_tag @entry.photo, class: "journal-photo" %>
-    </div>
-  <% end %>
+  <%= image_tag @entry.photo.url,
+                class: "journal-photo",
+                alt: @entry.title %>
+<% end %>
 
   <div class="entry-info">
 

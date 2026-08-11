@@ -2,6 +2,8 @@
             new_entry_path,
             class: "primary-btn" %>
 
+<h2 class="page-title">📔 My Journal Entries</h2>
+
 <% if @entries.any? %>
 
   <% @entries.each do |entry| %>
@@ -74,5 +76,64 @@
   <%= link_to "➕ Create Your First Journal",
               new_entry_path,
               class: "primary-btn" %>
+
+<% end %>
+
+
+<% if @shared_entries.any? %>
+
+  <hr>
+
+  <h2 class="page-title">🔗 Shared With Me</h2>
+
+  <% @shared_entries.each do |entry| %>
+
+    <div class="journal-card">
+
+      <% if entry.photo.attached? %>
+        <div class="journal-image">
+          <%= image_tag entry.photo.url,
+                        class: "journal-thumbnail",
+                        alt: entry.title %>
+        </div>
+      <% end %>
+
+      <div class="journal-body">
+
+        <h2 class="entry-title">
+          <%= link_to entry.title, entry_path(entry) %>
+        </h2>
+
+        <p>
+          <span class="mood-badge">
+            😊 <%= entry.mood %>
+          </span>
+        </p>
+
+        <p class="journal-preview">
+          <%= truncate(entry.content, length: 150) %>
+        </p>
+
+        <p class="entry-meta">
+          📅 <%= entry.created_at.strftime("%d %B %Y") %>
+        </p>
+
+        <p>
+          🔗 Shared by <strong><%= entry.user.name %></strong>
+        </p>
+
+      </div>
+
+      <div class="journal-actions">
+
+        <%= link_to "👁 View",
+                    entry_path(entry),
+                    class: "secondary-btn" %>
+
+      </div>
+
+    </div>
+
+  <% end %>
 
 <% end %>

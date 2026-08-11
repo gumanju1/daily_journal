@@ -4,6 +4,7 @@ class EntriesController < ApplicationController
 
   def index
     @entries = current_user.entries.order(created_at: :desc)
+    @shared_entries = current_user.shared_entries.order(created_at: :desc)
   end
 
   def show
@@ -26,9 +27,17 @@ class EntriesController < ApplicationController
   end
 
   def edit
+    unless @entry.user == current_user
+      redirect_to entries_path, alert: "You cannot edit a shared journal."
+    end
   end
 
   def update
+    unless @entry.user == current_user
+      redirect_to entries_path, alert: "You cannot edit a shared journal."
+      return
+    end
+
     if @entry.update(entry_params)
       redirect_to entry_path(@entry), notice: "Journal entry updated successfully!"
     else
@@ -37,6 +46,11 @@ class EntriesController < ApplicationController
   end
 
   def destroy
+    unless @entry.user == current_user
+      redirect_to entries_path, alert: "You cannot delete a shared journal."
+      return
+    end
+
     @entry.destroy
     redirect_to entries_path, notice: "Journal entry deleted successfully!"
   end
@@ -44,7 +58,12 @@ class EntriesController < ApplicationController
   private
 
   def set_entry
-    @entry = current_user.entries.find(params[:id])
+    @entry = Entry.find(params[:id])
+
+    unless @entry.user == current_user ||
+           @entry.shared_users.include?(current_user)
+      redirect_to entries_path, alert: "You do not have access to this journal."
+    end
   end
 
   def entry_params

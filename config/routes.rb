@@ -5,5 +5,6 @@ Rails.application.routes.draw do
 
   resources :entries do
     resources :comments, only: [ :create, :destroy ]
+    resources :entry_shares, only: [ :create, :destroy ]
   end
 end

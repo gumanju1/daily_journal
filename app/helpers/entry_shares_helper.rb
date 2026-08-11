@@ -1,0 +1,2 @@
+module EntrySharesHelper
+end

@@ -7,4 +7,6 @@ class User < ApplicationRecord
 
   has_many :entry_shares, dependent: :destroy
   has_many :shared_entries, through: :entry_shares, source: :entry
+
+  validates :name, presence: true
 end

@@ -28,7 +28,7 @@ gem "cloudinary"
 gem "activestorage-cloudinary-service"
 
 # Authentication
-gem "devise", "~> 4.9"
+gem "devise", "~> 5.0"
 
 # Environment variables
 gem "dotenv-rails", groups: [ :development, :test ]
